@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class EmployeePayrollService {
 
@@ -19,16 +21,19 @@ public class EmployeePayrollService {
         Employee employee = new Employee(employeeDTO.getName(), employeeDTO.getSalary());
         employee.setId(idCounter++);
         employeeList.add(employee);
+        log.info("Added new employee: {}", employee);
         return employee;
     }
 
     // Retrieve all employees
     public List<Employee> getAllEmployees() {
+        log.info("Fetching all employees");
         return employeeList;
     }
 
     // Retrieve employee by ID
     public Optional<Employee> getEmployeeById(Long id) {
+        log.info("Fetching employee with ID: {}", id);
         return employeeList.stream().filter(emp -> emp.getId().equals(id)).findFirst();
     }
 
@@ -39,14 +44,17 @@ public class EmployeePayrollService {
             Employee employee = existingEmployee.get();
             employee.setName(employeeDTO.getName());
             employee.setSalary(employeeDTO.getSalary());
+            log.info("Updated employee: {}", employee);
             return employee;
         } else {
+            log.error("Employee not found with ID: {}", id);
             throw new RuntimeException("Employee not found with id: " + id);
         }
     }
 
     // Delete an employee
     public void deleteEmployee(Long id) {
+        log.warn("Deleted employee with ID: {}", id);
         employeeList.removeIf(employee -> employee.getId().equals(id));
     }
 }
