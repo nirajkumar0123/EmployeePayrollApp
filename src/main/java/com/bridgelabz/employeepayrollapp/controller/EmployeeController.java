@@ -1,5 +1,6 @@
 package com.bridgelabz.employeepayrollapp.controller;
 
+import com.bridgelabz.employeepayrollapp.dto.EmployeePayrollDTO;
 import com.bridgelabz.employeepayrollapp.model.Employee;
 import com.bridgelabz.employeepayrollapp.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,23 +28,28 @@ public class EmployeeController {
         return employeeRepository.findById(id);
     }
 
-    // POST Request - Add a New Employee
+    // POST Request - Add a New Employee (Use DTO)
     @PostMapping("/add")
-    public Employee addEmployee(@RequestBody Employee employee) {
-        return employeeRepository.save(employee);
+    public EmployeePayrollDTO addEmployee(@RequestBody EmployeePayrollDTO employeeDTO) {
+        Employee employee = new Employee(employeeDTO.getName(), employeeDTO.getSalary());
+        employeeRepository.save(employee);
+        return new EmployeePayrollDTO(employee.getName(), employee.getSalary());
     }
 
-    // PUT Request - Update Employee
+
+    // PUT Request - Update Employee (Use DTO)
     @PutMapping("/update/{id}")
-    public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
+    public EmployeePayrollDTO updateEmployee(@PathVariable Long id, @RequestBody EmployeePayrollDTO employeeDTO) {
         return employeeRepository.findById(id)
                 .map(employee -> {
-                    employee.setName(updatedEmployee.getName());
-                    employee.setSalary(updatedEmployee.getSalary());
-                    return employeeRepository.save(employee);
+                    employee.setName(employeeDTO.getName());
+                    employee.setSalary(employeeDTO.getSalary());
+                    employeeRepository.save(employee);
+                    return new EmployeePayrollDTO(employee.getName(), employee.getSalary()); // Returning DTO
                 })
                 .orElseThrow(() -> new RuntimeException("Employee not found with id: " + id));
     }
+
 
     // DELETE Request - Delete Employee
     @DeleteMapping("/delete/{id}")
