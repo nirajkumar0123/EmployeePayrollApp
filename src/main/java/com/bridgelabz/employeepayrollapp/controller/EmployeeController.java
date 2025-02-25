@@ -2,7 +2,7 @@ package com.bridgelabz.employeepayrollapp.controller;
 
 import com.bridgelabz.employeepayrollapp.dto.EmployeePayrollDTO;
 import com.bridgelabz.employeepayrollapp.model.Employee;
-import com.bridgelabz.employeepayrollapp.repository.EmployeeRepository;
+import com.bridgelabz.employeepayrollapp.service.EmployeePayrollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,47 +14,39 @@ import java.util.Optional;
 public class EmployeeController {
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private EmployeePayrollService employeeService;
 
     // GET Request - Retrieve All Employees
     @GetMapping("/all")
     public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
+        return employeeService.getAllEmployees();
     }
 
     // GET Request - Retrieve Employee by ID
     @GetMapping("/{id}")
     public Optional<Employee> getEmployeeById(@PathVariable Long id) {
-        return employeeRepository.findById(id);
+        return employeeService.getEmployeeById(id);
     }
 
     // POST Request - Add a New Employee (Use DTO)
     @PostMapping("/add")
-    public EmployeePayrollDTO addEmployee(@RequestBody EmployeePayrollDTO employeeDTO) {
-        Employee employee = new Employee(employeeDTO.getName(), employeeDTO.getSalary());
-        employeeRepository.save(employee);
-        return new EmployeePayrollDTO(employee.getName(), employee.getSalary());
+    public Employee addEmployee(@RequestBody EmployeePayrollDTO employeeDTO) {
+        return employeeService.addEmployee(employeeDTO);
+
     }
 
 
     // PUT Request - Update Employee (Use DTO)
     @PutMapping("/update/{id}")
-    public EmployeePayrollDTO updateEmployee(@PathVariable Long id, @RequestBody EmployeePayrollDTO employeeDTO) {
-        return employeeRepository.findById(id)
-                .map(employee -> {
-                    employee.setName(employeeDTO.getName());
-                    employee.setSalary(employeeDTO.getSalary());
-                    employeeRepository.save(employee);
-                    return new EmployeePayrollDTO(employee.getName(), employee.getSalary()); // Returning DTO
-                })
-                .orElseThrow(() -> new RuntimeException("Employee not found with id: " + id));
+    public Employee updateEmployee(@PathVariable Long id, @RequestBody EmployeePayrollDTO employeeDTO) {
+        return employeeService.updateEmployee(id, employeeDTO);
     }
 
 
     // DELETE Request - Delete Employee
     @DeleteMapping("/delete/{id}")
     public String deleteEmployee(@PathVariable Long id) {
-        employeeRepository.deleteById(id);
+        employeeService.deleteEmployee(id);
         return "Employee deleted with ID: " + id;
     }
 }
