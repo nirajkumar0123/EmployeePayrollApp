@@ -1,27 +1,16 @@
 package com.bridgelabz.employeepayrollapp.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor // Generates a constructor with all fields
+@NoArgsConstructor
 public class EmployeePayrollDTO {
     private String name;
     private double salary;
 
-    public EmployeePayrollDTO(String name, double salary) {
-        this.name = name;
-        this.salary = salary;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getSalary() {
-        return salary;
-    }
-
-    public void setSalary(double salary) {
-        this.salary = salary;
-    }
 }
