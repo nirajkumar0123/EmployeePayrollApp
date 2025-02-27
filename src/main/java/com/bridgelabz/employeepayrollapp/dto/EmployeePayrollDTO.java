@@ -7,7 +7,7 @@ import lombok.*;
 @Data
 public class EmployeePayrollDTO {
     @NotEmpty(message = "Name cannot be empty")
-    @Pattern(regexp = "^[A-Z][a-zA-Z\\s]{2,}$")
+    @Pattern(regexp = "^[A-Z][a-zA-Z\\s]{2,}$", message = "Name must start with a capital letter and have at least 3 characters")
     private String name;
     private double salary;
 
