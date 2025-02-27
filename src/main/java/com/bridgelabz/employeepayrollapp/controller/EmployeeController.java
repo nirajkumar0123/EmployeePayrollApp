@@ -3,6 +3,7 @@ package com.bridgelabz.employeepayrollapp.controller;
 import com.bridgelabz.employeepayrollapp.dto.EmployeePayrollDTO;
 import com.bridgelabz.employeepayrollapp.model.Employee;
 import com.bridgelabz.employeepayrollapp.service.EmployeePayrollService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,7 @@ public class EmployeeController {
 
     // POST Request - Add a New Employee (Use DTO)
     @PostMapping("/add")
-    public Employee addEmployee(@RequestBody EmployeePayrollDTO employeeDTO) {
+    public Employee addEmployee(@Valid @RequestBody EmployeePayrollDTO employeeDTO) {
         log.info("POST /add - Adding employee: {}", employeeDTO);
         return employeeService.addEmployee(employeeDTO);
 
@@ -43,7 +44,7 @@ public class EmployeeController {
 
     // PUT Request - Update Employee (Use DTO)
     @PutMapping("/update/{id}")
-    public Employee updateEmployee(@PathVariable Long id, @RequestBody EmployeePayrollDTO employeeDTO) {
+    public Employee updateEmployee(@PathVariable Long id, @Valid @RequestBody EmployeePayrollDTO employeeDTO) {
         log.info("PUT /update/{} - Updating employee", id);
         return employeeService.updateEmployee(id, employeeDTO);
     }
