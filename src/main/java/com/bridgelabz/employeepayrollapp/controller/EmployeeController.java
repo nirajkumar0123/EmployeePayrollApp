@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -28,9 +27,9 @@ public class EmployeeController {
 
     // GET Request - Retrieve Employee by ID
     @GetMapping("/{id}")
-    public Optional<Employee> getEmployeeById(@PathVariable Long id) {
+    public Employee getEmployeeById(@PathVariable Long id) {
         log.info("GET /{} - Retrieving employee", id);
-        return employeeService.getEmployeeById(id);
+        return employeeService.getEmployeeById(id); // Exception handled globally
     }
 
     // POST Request - Add a New Employee (Use DTO)
