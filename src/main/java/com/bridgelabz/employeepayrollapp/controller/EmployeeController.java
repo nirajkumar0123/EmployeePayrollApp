@@ -4,59 +4,46 @@ import com.bridgelabz.employeepayrollapp.dto.EmployeePayrollDTO;
 import com.bridgelabz.employeepayrollapp.model.Employee;
 import com.bridgelabz.employeepayrollapp.service.EmployeePayrollService;
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Slf4j
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
 
     @Autowired
-    private EmployeePayrollService employeeService;
+    private EmployeePayrollService employeePayrollService;
 
-    // GET Request - Retrieve All Employees
-    @GetMapping("/all")
-    public List<Employee> getAllEmployees() {
-        log.info("GET /all - Retrieving all employees");
-        return employeeService.getAllEmployees();
-    }
-
-    // GET Request - Retrieve Employee by ID
-    @GetMapping("/{id}")
-    public Employee getEmployeeById(@PathVariable Long id) {
-        log.info("GET /{} - Retrieving employee", id);
-        return employeeService.getEmployeeById(id); // Exception handled globally
-    }
-
-    // POST Request - Add a New Employee (Use DTO)
+    // Add Employee
     @PostMapping("/add")
     public Employee addEmployee(@Valid @RequestBody EmployeePayrollDTO employeeDTO) {
-        log.info("POST /add - Adding employee: {}", employeeDTO);
-        return employeeService.addEmployee(employeeDTO);
-
+        return employeePayrollService.addEmployee(employeeDTO);
     }
 
+    // Get all employees
+    @GetMapping("/all")
+    public List<Employee> getAllEmployees() {
+        return employeePayrollService.getAllEmployees();
+    }
 
-    // PUT Request - Update Employee (Use DTO)
+    // Get Employee by ID
+    @GetMapping("/{id}")
+    public Employee getEmployeeById(@PathVariable Long id) {
+        return employeePayrollService.getEmployeeById(id);
+    }
+
+    // Update Employee
     @PutMapping("/update/{id}")
     public Employee updateEmployee(@PathVariable Long id, @Valid @RequestBody EmployeePayrollDTO employeeDTO) {
-        log.info("PUT /update/{} - Updating employee", id);
-        return employeeService.updateEmployee(id, employeeDTO);
+        return employeePayrollService.updateEmployee(id, employeeDTO);
     }
 
-
-    // DELETE Request - Delete Employee
+    // Delete Employee
     @DeleteMapping("/delete/{id}")
     public String deleteEmployee(@PathVariable Long id) {
-        log.warn("DELETE /delete/{} - Deleting employee", id);
-        employeeService.deleteEmployee(id);
-        return "Employee deleted with ID: " + id;
+        employeePayrollService.deleteEmployee(id);
+        return "Employee with ID " + id + " deleted successfully.";
     }
 }
-
-
-
