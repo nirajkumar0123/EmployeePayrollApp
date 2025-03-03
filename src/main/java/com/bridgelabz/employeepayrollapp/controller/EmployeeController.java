@@ -39,5 +39,10 @@ public class EmployeeController {
     public String deleteEmployee(@PathVariable Long id) {
         employeePayrollService.deleteEmployee(id);
         return "Employee with ID " + id + " deleted successfully.";
+      
+    // Add Employee
+    @PostMapping("/add")
+    public Employee addEmployee(@Valid @RequestBody EmployeePayrollDTO employeeDTO) {
+        return employeePayrollService.addEmployee(employeeDTO);
     }
 }
