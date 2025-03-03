@@ -16,9 +16,28 @@ public class EmployeeController {
     @Autowired
     private EmployeePayrollService employeePayrollService;
 
-    // Add Employee
-    @PostMapping("/add")
-    public Employee addEmployee(@Valid @RequestBody EmployeePayrollDTO employeeDTO) {
-        return employeePayrollService.addEmployee(employeeDTO);
+    // Get all employees
+    @GetMapping("/all")
+    public List<Employee> getAllEmployees() {
+        return employeePayrollService.getAllEmployees();
+    }
+
+    // Get Employee by ID
+    @GetMapping("/{id}")
+    public Employee getEmployeeById(@PathVariable Long id) {
+        return employeePayrollService.getEmployeeById(id);
+    }
+
+    // Update Employee
+    @PutMapping("/update/{id}")
+    public Employee updateEmployee(@PathVariable Long id, @Valid @RequestBody EmployeePayrollDTO employeeDTO) {
+        return employeePayrollService.updateEmployee(id, employeeDTO);
+    }
+
+    // Delete Employee
+    @DeleteMapping("/delete/{id}")
+    public String deleteEmployee(@PathVariable Long id) {
+        employeePayrollService.deleteEmployee(id);
+        return "Employee with ID " + id + " deleted successfully.";
     }
 }
