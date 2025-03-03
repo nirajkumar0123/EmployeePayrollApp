@@ -50,12 +50,5 @@ public class EmployeePayrollService {
         Employee employee = getEmployeeById(id);
         employeeRepository.delete(employee);
         log.warn("Deleted employee with ID: {}", id);
-      
-    // Save Employee to Database
-    public Employee addEmployee(EmployeePayrollDTO employeeDTO) {
-        Employee employee = new Employee(employeeDTO);
-        Employee savedEmployee = employeeRepository.save(employee);
-        log.info("Added new employee: {}", savedEmployee);
-        return savedEmployee;
     }
 }
